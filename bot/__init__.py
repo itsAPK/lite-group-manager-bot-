@@ -33,7 +33,7 @@ basicConfig(
 
 getLogger("pyrogram").setLevel(INFO)
 getLogger('sqlalchemy.engine').setLevel(INFO)    
-
+getLogger('apscheduler').setLevel(DEBUG)
 LOGGER = getLogger(__name__)
 
 
@@ -60,5 +60,7 @@ UPTIME = time()
 BOT_USERNAME = ""
 BOT_NAME = ""
 BOT_ID = 0
+
+print(SUDO_USERS)
 
 from bot.database import session,base

@@ -19,6 +19,11 @@ from bot import (
     WORKERS,
     UPTIME,
     BOT_TOKEN)
+from bot.sched import scheduler,jobstores
+
+BOT_ID=0
+
+
 
 class Bot(Client):
     def __init__(self):
@@ -38,14 +43,18 @@ class Bot(Client):
     async def start(self):
         await super().start() 
         LOGGER.info("Starting bot...")
-        
-        me=await self.get_me()  
+        me=await self.get_me() 
+        BOT_ID=me.id
         LOGGER.info(
             f"Pyrogram v{__version__} (Layer - {layer}) started on {me.username} [{me.id}]",
         )
+        
+        scheduler.start()
         LOGGER.info(f"Python Version: {python_version()}\n")
         LOGGER.info("Bot Started Successfully!\n")
         await self.send_message(LOG_CHANNEL, "<i>Starting Bot...</i>")
+        
+    
     async def stop(self):
         #LOGGER.info("Closing Database Connection")
         runtime = strftime("%Hh %Mm %Ss", gmtime(time() - UPTIME))
@@ -62,4 +71,7 @@ class Bot(Client):
             f"""Bot Stopped [Runtime: {runtime}s]\n
         """,
         )   
+        
+    
+    
     
